@@ -45,8 +45,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff8c162a),
-        foregroundColor: const Color(0xffffe4ff), //Color de letra
+        backgroundColor: const Color(0xff364461),
+        foregroundColor: const Color(0xffe0e4ce), //Color de letra
         centerTitle: true,
         title: const Text("Inventario Equipos Kayser"),
       ),
@@ -72,6 +72,34 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xff35bf86),
         child: const Icon(Icons.add),
       ),
+      drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children:  [
+              const UserAccountsDrawerHeader(
+              accountName: Text("Andrés Sanchez"),
+              accountEmail: Text("mx-asanchez"),
+              currentAccountPicture: CircleAvatar(backgroundColor: Colors.white),
+              decoration: BoxDecoration(
+                color: Color(0xff583b7e),
+              ),
+            ),
+              const ListTile(
+                title: Text('Home'),
+                leading: Icon(Icons.home),
+              ),
+              ListTile(
+                title: const Text('Asignar Equipo'),
+                leading: const Icon(Icons.assignment),
+                onTap: () => context.push('/asignar'),
+              ),
+              const ListTile(
+                title: Text('Racks'),
+                leading: Icon(Icons.tab),
+              ),
+            ],
+          ),
+        ),
     );
   }
 }

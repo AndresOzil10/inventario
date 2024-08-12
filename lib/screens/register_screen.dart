@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../config/constants/enviroment.dart';
@@ -110,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     : Icons.visibility_off)), controller: confirmPassword,)
                   ),
 
-                  const SizedBox(height: 30),
+                  const Gap(25),
 
                   // Button
                   Container(
@@ -163,8 +164,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ))
                         ],
                       ),
-
-                  
                 ],
               ),
             ),

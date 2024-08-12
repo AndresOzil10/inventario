@@ -13,11 +13,15 @@ class _InfoScreenState extends State<InfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xff8c162a),
-        foregroundColor: const Color(0xffffe4ff), //Color de letra
+        backgroundColor: const Color(0xff364461),
+        foregroundColor: const Color(0xffe0e4ce),  //Color de letra
         centerTitle: true,
         title: Text("$name Info"),
-
+      ),
+      body: Center(
+        child: FloatingActionButton(onPressed: () {
+          
+        },),
       ),
     );
   }

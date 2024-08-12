@@ -14,15 +14,15 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen> {
 
   Future<void> _selectdate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context, 
       initialDate: DateTime.now(),
       firstDate: DateTime(2017), 
       lastDate: DateTime(30000));
 
-    if(_picked != null ){
+    if(picked != null ){
       setState(() {
-        datePicked.text = _picked.toString().split(" ")[0];
+        datePicked.text = picked.toString().split(" ")[0];
       });
     }
   }
@@ -51,8 +51,8 @@ class _AddScreenState extends State<AddScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: const Color(0xff8c162a),
-          foregroundColor: const Color(0xffffe4ff), //Color de letra
+          backgroundColor: const Color(0xff364461),
+          foregroundColor: const Color(0xffe0e4ce),  //Color de letra
           centerTitle: true,
           title: const Text("Añadir Nuevos Equipos"),
         ),
