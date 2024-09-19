@@ -72,7 +72,9 @@ class _AddScreenState extends State<AddScreen> {
                         hint: '24NR824', 
                         labelText: 'Servi Tag', 
                         icono: const Icon(Icons.computer), 
-                        validators: (value){}
+                        validators: (value){
+                          return;
+                        }
                         ),
                         
                 ),
