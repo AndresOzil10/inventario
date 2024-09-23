@@ -10,7 +10,7 @@ class CustomInfo extends StatelessWidget {
   final Color color;
   //final ButtonStyle style;
   final Widget button;
-  final Function() funcion;
+  //final Function() funcion;
 
   const CustomInfo ({super.key, 
     //required this.function,
@@ -19,7 +19,7 @@ class CustomInfo extends StatelessWidget {
     required this.icon,
     //required this.style,
     required this.button,
-    required this.funcion, 
+    //required this.funcion, 
     required this.color,
 
   });
@@ -38,7 +38,7 @@ class CustomInfo extends StatelessWidget {
             leading: icon,
             title: label,
             subtitle: subtitle,
-            trailing: TextButton(onPressed: funcion, child: button,),
+            trailing: button,
           ),
         ],
       ),
