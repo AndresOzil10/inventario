@@ -56,63 +56,60 @@ class _AddScreenState extends State<AddScreen> {
           centerTitle: true,
           title: const Text("Añadir Nuevos Equipos"),
         ),
-        body: Container(
-          child:
-            Form(
-              child: Column(
-                children: [
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '24NR824', 
-                        labelText: 'Servi Tag', 
-                        icono: const Icon(Icons.computer), 
-                        validators: (value){
-                          return;
-                        }
-                        ),
-                        
-                ),
-                const SizedBox(
-                          height: 25,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      DataTime(
-                        controller: datePicked, 
-                        labelText: 'Fecha Inicio Equipo', 
-                        prefixIcon: const Icon(Icons.calendar_month), 
-                        onTap: () { 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          _selectdate(); 
-                          },
-                      )
-                  ),
-                  const SizedBox(
-                          height: 25,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      DataTime(
-                        controller: dateFinal, 
-                        labelText: 'Fecha Final Garantia', 
-                        prefixIcon: const Icon(Icons.calendar_month), 
-                        onTap: () { 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          _selectFinal(); 
-                          },
-                      )
-                  ),
-                ]
+        body: Form(
+          child: Column(
+            children: [
+              const SizedBox(
+                      height: 40,
+                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                child:
+                  TextFormFields(
+                    controller: serialNumber,
+                    hint: '24NR824', 
+                    labelText: 'Servi Tag', 
+                    icono: const Icon(Icons.computer), 
+                    validators: (value){
+                      return;
+                    }
+                    ),
+                    
+            ),
+            const SizedBox(
+                      height: 25,
+                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                child:
+                  DataTime(
+                    controller: datePicked, 
+                    labelText: 'Fecha Inicio Equipo', 
+                    prefixIcon: const Icon(Icons.calendar_month), 
+                    onTap: () { 
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      _selectdate(); 
+                      },
+                  )
               ),
-            )
+              const SizedBox(
+                      height: 25,
+                    ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                child:
+                  DataTime(
+                    controller: dateFinal, 
+                    labelText: 'Fecha Final Garantia', 
+                    prefixIcon: const Icon(Icons.calendar_month), 
+                    onTap: () { 
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      _selectFinal(); 
+                      },
+                  )
+              ),
+            ]
+          ),
         ),
       ),
     );

@@ -15,12 +15,12 @@ class LoginScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        body: Container(
+        body: SizedBox(
           width: double.infinity, //TO DO el ancho de la pantalla
           height: double.infinity, // TO DO el alto de la pantalla
           child: Stack(
             // Conjunto de Widgets, Colocar un widget encima de otro
-            children: [_Fondo(size: size), const _Icon(), Desing()],
+            children: [_Fondo(size: size), const _Icon(), const Desing()],
           ),
         ),
       ),
@@ -80,6 +80,7 @@ class _Fondo extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Container Burbuja() {
     return Container(
       width: 100,
