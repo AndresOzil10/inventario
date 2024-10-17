@@ -1,52 +1,50 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:inventario/widgets/custom_text_form.dart';
-
-import '../widgets/data_time.dart';
-
+import 'package:inventario/screens/add_computes.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
 
+
   @override
   State<AddScreen> createState() => _AddScreenState();
+
+  
 }
 
-class _AddScreenState extends State<AddScreen> {
+class _AddScreenState extends State<AddScreen>{
+  
+  //List Pages
+  final AddComputer _addComputer = AddComputer();
+  //final AddComplemets _addComplements = AddComplements();
+  //final AddPiso _addPiso = AddPiso();
 
-  Future<void> _selectdate() async {
-    DateTime? picked = await showDatePicker(
-      context: context, 
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2017), 
-      lastDate: DateTime(30000));
+  Widget _showPage = AddComputer();
 
-    if(picked != null ){
-      setState(() {
-        datePicked.text = picked.toString().split(" ")[0];
-      });
+  Widget _pageChooser(int page){
+    switch (page) {
+      case 0:
+      return _addComputer;
+      break;
+      case 1:
+      return const Text("Page 2");
+      break;
+      case 2:
+      return const Text("Page 3");
+      break;
+      default:
+      return const Center(
+        child: Text('No Page by page chooser', style: TextStyle(fontSize: 30),),
+      );
     }
   }
-  Future<void> _selectFinal() async {
-    DateTime? pick = await showDatePicker(
-      context: context, 
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2017), 
-      lastDate: DateTime(30000));
 
-    if(pick != null ){
-      setState(() {
-        dateFinal.text = pick.toString().split(" ")[0];
-      });
-    }
-  }
+  int _page=0;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
-  final datePicked = TextEditingController();
-  final dateFinal = TextEditingController();
-
-  final serialNumber = TextEditingController();
-  final inicioEquipo = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -56,62 +54,34 @@ class _AddScreenState extends State<AddScreen> {
           centerTitle: true,
           title: const Text("Añadir Nuevos Equipos"),
         ),
-        body: Form(
-          child: Column(
-            children: [
-              const SizedBox(
-                      height: 40,
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child:
-                  TextFormFields(
-                    controller: serialNumber,
-                    hint: '24NR824', 
-                    labelText: 'Servi Tag', 
-                    icono: const Icon(Icons.computer), 
-                    validators: (value){
-                      return;
-                    }
-                    ),
-                    
-            ),
-            const SizedBox(
-                      height: 25,
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child:
-                  DataTime(
-                    controller: datePicked, 
-                    labelText: 'Fecha Inicio Equipo', 
-                    prefixIcon: const Icon(Icons.calendar_month), 
-                    onTap: () { 
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      _selectdate(); 
-                      },
-                  )
-              ),
-              const SizedBox(
-                      height: 25,
-                    ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child:
-                  DataTime(
-                    controller: dateFinal, 
-                    labelText: 'Fecha Final Garantia', 
-                    prefixIcon: const Icon(Icons.calendar_month), 
-                    onTap: () { 
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      _selectFinal(); 
-                      },
-                  )
-              ),
-            ]
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: _page,
+          items: const [
+            Icon(Icons.computer_sharp),
+            Icon(Icons.category_rounded),
+            Icon(Icons.work)
+          ],
+          color: Colors.white,
+          buttonBackgroundColor: Colors.white,
+          backgroundColor: Colors.blueAccent,
+          animationCurve: Curves.easeInOut,
+          animationDuration: const Duration(milliseconds: 600),
+          onTap: (int tappedIndex){
+            setState(() {
+              _showPage = _pageChooser(tappedIndex);
+            });
+          },
+          letIndexChange: (index) => true,
+        ),
+        body: Container(
+          color: Colors.blueAccent,
+          child: Center(
+            child: _showPage,
           ),
         ),
       ),
     );
   }
+
 }

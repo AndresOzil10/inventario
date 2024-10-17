@@ -11,7 +11,9 @@ import '../config/constants/enviroment.dart';
 
 // ignore: must_be_immutable
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key });
+  String usuario;
+
+  HomeScreen(this.usuario, {super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -54,13 +56,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: const _Preview() ,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: const _Menu(),
-      drawer: const _Options(),
+      drawer: _Options(widget.usuario),
     );
   }
 }
 
+// ignore: must_be_immutable
 class _Options extends StatelessWidget {
-  const _Options();
+  String user;
+  _Options(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +72,11 @@ class _Options extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children:  [
-            const UserAccountsDrawerHeader(
-            accountName: Text("Andrés Sanchez"),
-            accountEmail: Text("mx-asanchez"),
-            currentAccountPicture: CircleAvatar(backgroundColor: Colors.white),
-            decoration: BoxDecoration(
+            UserAccountsDrawerHeader(
+            accountName: const Text('asas'),
+            accountEmail: Text(user),
+            currentAccountPicture: const CircleAvatar(backgroundColor: Colors.white),
+            decoration: const BoxDecoration(
               color: Color(0xff583b7e),
             ),
           ),

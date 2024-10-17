@@ -8,6 +8,7 @@ class TextFormFields extends StatelessWidget {
   final bool oscureText;
   final Widget? suffixIcon;
   final TextEditingController? controller;
+  final String? initialValue;
 
   const TextFormFields(
       {super.key,
@@ -15,7 +16,7 @@ class TextFormFields extends StatelessWidget {
       required this.labelText,
       required this.icono,
       this.validators,
-      this.oscureText = false, this.suffixIcon, this.controller});
+      this.oscureText = false, this.suffixIcon, this.controller, this.initialValue});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class TextFormFields extends StatelessWidget {
           prefixIcon: icono,
           prefixIconColor: const Color(0xffD2649A)),
       validator: validators,
+      initialValue: initialValue,
     );
   }
 }
