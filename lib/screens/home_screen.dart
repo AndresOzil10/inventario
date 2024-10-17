@@ -73,8 +73,8 @@ class _Options extends StatelessWidget {
           padding: EdgeInsets.zero,
           children:  [
             UserAccountsDrawerHeader(
-            accountName: const Text('asas'),
-            accountEmail: Text(user),
+            accountName: Text(user),
+            accountEmail: const Text(''),
             currentAccountPicture: const CircleAvatar(backgroundColor: Colors.white),
             decoration: const BoxDecoration(
               color: Color(0xff583b7e),
