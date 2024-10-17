@@ -1,6 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:inventario/screens/add_computes.dart';
+import 'package:inventario/screens/add_plant_component.dart';
+
+import 'add_complemets.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -15,11 +18,11 @@ class AddScreen extends StatefulWidget {
 class _AddScreenState extends State<AddScreen>{
   
   //List Pages
-  final AddComputer _addComputer = AddComputer();
-  //final AddComplemets _addComplements = AddComplements();
-  //final AddPiso _addPiso = AddPiso();
+  final AddComputer _addComputer = const AddComputer();
+  final AddComplemets _addComplements = AddComplemets();
+  final AddPlantComponent _addPiso = AddPlantComponent();
 
-  Widget _showPage = AddComputer();
+  Widget _showPage = const AddComputer();
 
   Widget _pageChooser(int page){
     switch (page) {
@@ -28,11 +31,11 @@ class _AddScreenState extends State<AddScreen>{
       // ignore: dead_code
       break;
       case 1:
-      return const Text("Page 2");
+      return _addComplements;
       // ignore: dead_code
       break;
       case 2:
-      return const Text("Page 3");
+      return _addPiso;
       // ignore: dead_code
       break;
       default:
@@ -55,7 +58,7 @@ class _AddScreenState extends State<AddScreen>{
           backgroundColor: const Color(0xff364461),
           foregroundColor: const Color(0xffe0e4ce),  //Color de letra
           centerTitle: true,
-          title: const Text("Añadir Nuevos Equipos"),
+          title: const Text("Add New Equipment"),
         ),
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,

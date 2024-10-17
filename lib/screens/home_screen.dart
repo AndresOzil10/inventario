@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xff364461),
         foregroundColor: const Color(0xffe0e4ce), //Color de letra
         centerTitle: true,
-        title: const Text("Inventario Equipos Kayser"),
+        title: const Text("Equipment Inventory Kayser"),
       ),
       body: const _Preview() ,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
@@ -85,7 +85,7 @@ class _Options extends StatelessWidget {
               leading: Icon(Icons.home),
             ),
             ListTile(
-              title: const Text('Asignar Equipo'),
+              title: const Text('Assign Equipment'),
               leading: const Icon(Icons.assignment),
               onTap: () => context.push('/asignar'),
             ),
@@ -106,17 +106,26 @@ class _Preview extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children:[
-     CustomInfo(label: const Text('Equipo de Computo'), subtitle: const Text('Activos: 65'), icon: Image.asset('assets/images/1.gif'), button: const Text('Stock: 8')
-     , color: const Color(0xfff1fbf5),),
-     CustomInfo(label: const Text('Impresoras'), subtitle: const Text('Activas: 50'), icon: Image.asset('assets/images/2.gif'), button: const Text('Stock: 3'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Scanners'), subtitle: const Text('Activos: 50'), icon: Image.asset('assets/images/3.gif'), button: const Text('Stock: 5'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Activas: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Antenas'), subtitle: const Text('Activas: 18'), icon: Image.asset('assets/images/5.gif'), button: const Text('Stock: 1'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Maquinas'), subtitle: const Text('Activas: 38'), icon: Image.asset('assets/images/6.gif'), button: const Text('Stock: 0'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Terminales'), subtitle: const Text('Activas: 50'), icon: Image.asset('assets/images/7.gif'), button: const Text('Stock: 4'), color: const Color(0xfff1fbf5)),
-     CustomInfo(label: const Text('Racks'), subtitle: const Text('Activas: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff1fbf5))
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Computer Equipment'), subtitle: const Text('Online: 65'), icon: Image.asset('assets/images/1.gif'), button: const Text('Stock: 8')
+        , color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Printers'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/2.gif'), button: const Text('Stock: 3'), color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Scanners'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/3.gif'), button: const Text('Stock: 5'), color: const Color(0xfff9d423), funcion: () {  },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Online: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff9d423), funcion: () {  },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Antennas'), subtitle: const Text('Online: 18'), icon: Image.asset('assets/images/5.gif'), button: const Text('Stock: 1'), color: const Color(0xfff9d423), funcion: () {  },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Machines'), subtitle: const Text('Online: 38'), icon: Image.asset('assets/images/6.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Terminals'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/7.gif'), button: const Text('Stock: 4'), color: const Color(0xfff9d423), funcion: () {  },),
+        const SizedBox(height: 20,),
+        CustomInfo(label: const Text('Racks'), subtitle: const Text('Online: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },)
       
-    ]);
+      ]
+    );
   }
 }
 
@@ -138,13 +147,13 @@ class _Menu extends StatelessWidget {
           Icons.computer,
           color: Colors.blue,
         ),
-        labelWidget: const Text('Add computer', style: TextStyle(color: Colors.black54),),
+        labelWidget: const Text('Add Element', style: TextStyle(color: Colors.black54),),
         backgroundColor: Colors.white30,
         onTap: () {
           context.push('/add');
         },
         ),
-        SpeedDialChild(
+        /*SpeedDialChild(
           elevation: 0,
           child: const Icon(
           Icons.print,
@@ -167,7 +176,7 @@ class _Menu extends StatelessWidget {
         onTap: () {
           context.push('/add');
         },
-        )
+        )*/
       ],
       child: const Icon(
         Icons.menu_open_rounded,

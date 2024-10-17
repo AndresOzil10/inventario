@@ -3,9 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:inventario/widgets/data_time.dart';
 
+import '../Json/dropdown_list.dart';
+import '../widgets/custom_dropdown_list.dart';
 import '../widgets/custom_text_form.dart';
 
 class AddComputer extends StatefulWidget {
+  const AddComputer({super.key});
+
 
   @override
   State<AddComputer> createState() => _AddComputerState();
@@ -63,6 +67,14 @@ class _AddComputerState extends State<AddComputer> {
     
   }
 
+
+  List<MenuItem> menuItems = [
+    MenuItem(value: 'MX01-K02', label: 'Laptop', icon: Icons.laptop_chromebook),
+    MenuItem(value: 'MX01-K01', label: 'PC', icon: Icons.laptop_mac_outlined),
+    MenuItem(value: 'Raspberry', label: 'Raspberry', icon: Icons.credit_card),
+    MenuItem(value: 'Monitor', label: 'Monitor', icon: Icons.monitor_rounded),
+    MenuItem(value: 'Terminales', label: 'Terminales', icon: Icons.terminal)
+  ];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -72,11 +84,16 @@ class _AddComputerState extends State<AddComputer> {
           child: Column(
             children: [
               const SizedBox(
-                      height: 40,
+                      height: 20,
                     ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 80),
-                child: Text('a')
+              Title(color: Colors.red, child: const Text('Equipmets', style: TextStyle(fontSize: 30, color: Colors.amber),)),
+              const SizedBox(
+                      height: 30,
+                    ),
+              //const Text('Elemento:'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                child: CustomDropdownList(menuItems: menuItems)
               ),
               const SizedBox(
                       height: 40,
