@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:inventario/Json/username.dart';
 import 'package:inventario/screens/home_screen.dart';
 import '../config/constants/enviroment.dart';
 import '../widgets/custom_text_form.dart';

@@ -1,7 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:inventario/screens/add_screen.dart';
 import 'package:inventario/screens/asignar_equipo_screen.dart';
-import 'package:inventario/screens/home_screen.dart';
 import 'package:inventario/screens/info_screen.dart';
 import 'package:inventario/screens/register_screen.dart';
 

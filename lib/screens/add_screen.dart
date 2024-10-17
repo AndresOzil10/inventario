@@ -25,12 +25,15 @@ class _AddScreenState extends State<AddScreen>{
     switch (page) {
       case 0:
       return _addComputer;
+      // ignore: dead_code
       break;
       case 1:
       return const Text("Page 2");
+      // ignore: dead_code
       break;
       case 2:
       return const Text("Page 3");
+      // ignore: dead_code
       break;
       default:
       return const Center(
@@ -39,8 +42,8 @@ class _AddScreenState extends State<AddScreen>{
     }
   }
 
-  int _page=0;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final int _page=0;
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
