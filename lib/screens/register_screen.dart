@@ -37,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if(message == 'Success'){
       return  message;
     } else {
-      print('No es correcta la contraseña o el usuario');
+      return message;
     }
   }
 
@@ -140,7 +140,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             password.clear();
                             confirmPassword.clear();
                           } else {
-
+                            Fluttertoast.showToast(
+                              msg: "We Have a Problems!! Try Again.",
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.CENTER,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              fontSize: 20.0
+                            );
+                            username.clear();
+                            password.clear();
+                            confirmPassword.clear();
                           }
                         }
                       },

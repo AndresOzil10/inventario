@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:inventario/screens/add_screen.dart';
 import 'package:inventario/screens/asignar_equipo_screen.dart';
 import 'package:inventario/screens/details_screen.dart';
+import 'package:inventario/screens/home_screen.dart';
 import 'package:inventario/screens/inf_screen.dart';
 import 'package:inventario/screens/register_screen.dart';
 
@@ -13,7 +14,11 @@ final appRouter = GoRouter(routes: [
     //name: LoginScreen.name,
     builder: (context, state) => const LoginScreen(),
   ),
-  
+  GoRoute(
+    path: '/home',
+    //name: LoginScreen.name,
+    builder: (context, state) => HomeScreen('id'),
+  ),
   GoRoute(
     path: '/register',
     //name: LoginScreen.name,
@@ -22,7 +27,7 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/details',
     //name: LoginScreen.name,
-    builder: (context, state) => const InfoScreen(),
+    builder: (context, state) =>  InfoScreen('text'),
   ),
   GoRoute(
     path: '/add',

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../Json/hostname.dart';
 import '../config/constants/enviroment.dart';
+import 'details_screen.dart';
 
 
 // ignore: must_be_immutable
@@ -48,7 +48,7 @@ class _InfScreenState extends State<InfScreen> {
         backgroundColor: const Color(0xff364461),
         foregroundColor: const Color(0xffe0e4ce), //Color de letra
         centerTitle: true,
-        title: const Text("Inventario Equipos Kayser"),
+        title: const Text("Equipment Inventory Kayser"),
       ),
       body:  ListView.builder(
         itemCount: items.length,
@@ -59,39 +59,13 @@ class _InfScreenState extends State<InfScreen> {
               title: Text(list.hostname),
               titleTextStyle: const TextStyle( color: Color(0xff8c162a)),
               trailing: const Icon(Icons.arrow_right_rounded),
-              onTap: () => context.push('/details'),
+              onTap: () =>{
+                Navigator.push(context, MaterialPageRoute(builder: (context) => InfoScreen(list.hostname)))
+              } //context.push('/details'),
             ),
           );
         },
       ),
-      drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children:  [
-              const UserAccountsDrawerHeader(
-              accountName: Text("Andrés Sanchez"),
-              accountEmail: Text("mx-asanchez"),
-              currentAccountPicture: CircleAvatar(backgroundColor: Colors.white),
-              decoration: BoxDecoration(
-                color: Color(0xff583b7e),
-              ),
-            ),
-              const ListTile(
-                title: Text('Home'),
-                leading: Icon(Icons.home),
-              ),
-              ListTile(
-                title: const Text('Asignar Equipo'),
-                leading: const Icon(Icons.assignment),
-                onTap: () => context.push('/asignar'),
-              ),
-              const ListTile(
-                title: Text('Racks'),
-                leading: Icon(Icons.tab),
-              ),
-            ],
-          ),
-        ),
     );
   }
 }
