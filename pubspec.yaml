@@ -22,7 +22,7 @@ dependencies:
   google_fonts: ^6.2.1
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
@@ -30,10 +30,10 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/icon2.jpeg"
+  image_path: "assets/icon/kayser_icon.ico"
   min_sdk_android: 21
   adaptive-icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "#FFFFFF"
+  adaptive_icon_foreground: "#ffffff"
 
 flutter_native_splash:
   color: "#223ef1"
