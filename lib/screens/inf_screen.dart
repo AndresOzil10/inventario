@@ -39,7 +39,7 @@ class _InfScreenState extends State<InfScreen> {
         items.add( HostName.fromJson(item)); // se añade el 'area' al listado de items
       }
     });
- }
+  }
 
   @override
   Widget build(BuildContext context) {
