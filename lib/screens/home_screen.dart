@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var items = '';
+  List<dynamic> items = [];
   final dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.apiUrl,
@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
    final response = await dio.get('/conteo.php'); // texto
     final jsonResponse = json.decode(response.data);
     setState(() {
-      items = jsonResponse[0];
+      items = jsonResponse.values.toList();
       //print(items);
     });
  }
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         title: const Text("Equipment Inventory Kayser"),
       ),
-      body: const _Preview() ,
+      body: _Preview(items: items) ,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: const _Menu(),
       drawer: _Options(widget.usuario),
@@ -100,19 +100,25 @@ class _Options extends StatelessWidget {
 }
 
 class _Preview extends StatelessWidget {
-  const _Preview();
+  final List<dynamic> items;
+  const _Preview({required this.items});
+  //final dato = items;;
 
   @override
   Widget build(BuildContext context) {
+    if (items.isEmpty) {
+      return Center(child: Text('No data available'));
+    }
     return ListView(
-      children:[
+        
+        children:[
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Computer Equipment'), subtitle: const Text('Online: 65'), icon: Image.asset('assets/images/1.gif'), button: const Text('Stock: 8')
+        CustomInfo(label: const Text('Computer Equipment'), subtitle: Text('Online: ${items[0]}'), icon: Image.asset('assets/images/1.gif'), button: const Text('Stock: 8')
         , color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Printers'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/2.gif'), button: const Text('Stock: 3'), color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
+        CustomInfo(label: const Text('Printers'), subtitle: Text('Online: ${items[1]}'), icon: Image.asset('assets/images/2.gif'), button: const Text('Stock: 3  '), color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Scanners'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/3.gif'), button: const Text('Stock: 5'), color: const Color(0xfff9d423), funcion: () {  },),
+        CustomInfo(label: const Text('Scanners'), subtitle: Text('Online: ${items[2]}'), icon: Image.asset('assets/images/3.gif'), button: const Text('Stock: 5'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),
         CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Online: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),
@@ -124,7 +130,7 @@ class _Preview extends StatelessWidget {
         const SizedBox(height: 20,),
         CustomInfo(label: const Text('Racks'), subtitle: const Text('Online: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },)
       
-      ]
+      ],
     );
   }
 }
