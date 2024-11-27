@@ -93,6 +93,11 @@ class _Options extends StatelessWidget {
               title: Text('Racks'),
               leading: Icon(Icons.tab),
             ),
+            ListTile(
+              title: const Text('Schedule Maintenance'),
+              leading: const Icon(Icons.schedule_outlined),
+              onTap: () => context.push('/maintenace'),
+            ),
           ],
         ),
       );
