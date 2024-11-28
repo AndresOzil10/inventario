@@ -7,12 +7,12 @@ environment:
   sdk: '>=3.4.3 <4.0.0'
 
 dependencies:
+  bottom_picker: ^2.9.0
   curved_navigation_bar: ^1.0.6
   dio: ^5.5.0+1
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0
-  flutter_calendar_week: ^3.0.3
   flutter_dotenv: ^5.1.0
   flutter_localizations:
     sdk: flutter
@@ -49,3 +49,6 @@ flutter:
     - .env
     - assets/images/
     - assets/icon/
+    - assets/event.png
+    #- assets/event1.jpg
+    #- assets/profile.jpg

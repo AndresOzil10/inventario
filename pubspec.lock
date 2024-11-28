@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bottom_picker:
+    dependency: "direct main"
+    description:
+      name: bottom_picker
+      sha256: "5d52cf94cfe41e3cc448101552f9b2e9faa810e3609e18432280431fb7dd676a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
   characters:
     dependency: transitive
     description:
@@ -158,14 +166,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  flutter_calendar_week:
-    dependency: "direct main"
-    description:
-      name: flutter_calendar_week
-      sha256: afeafaff7892120e6d47d8011385a9076c55feb36c10b2a07834d74c3d93854d
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.3"
   flutter_dotenv:
     dependency: "direct main"
     description:

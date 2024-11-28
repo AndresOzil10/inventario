@@ -1,9 +1,15 @@
+import 'package:bottom_picker/bottom_picker.dart';
+import 'package:bottom_picker/resources/arrays.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../widgets/data_time.dart';
+
 class AddMaintenace extends StatelessWidget {
-  AddMaintenace({super.key});
+  const AddMaintenace({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,7 @@ class AddMaintenace extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
-      home: CalendarScreen(),
+      home: const CalendarScreen(),
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
       supportedLocales: const [
         Locale('en', 'US'),
@@ -23,6 +29,8 @@ class AddMaintenace extends StatelessWidget {
 }
 
 class CalendarScreen extends StatefulWidget {
+  const CalendarScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _CalendarScreenState();
@@ -31,6 +39,22 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   bool showEvents = true;
+
+  Future<void> _selectdate() async {
+    DateTime? picked = await showDatePicker(
+      context: context, 
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2017), 
+      lastDate: DateTime(30000));
+
+    if(picked != null ){
+      setState(() {
+        datePicked.text = picked.toString().split(" ")[0];
+      });
+    }
+  }
+
+  final datePicked = TextEditingController();
 
 
   final List<NeatCleanCalendarEvent> _eventList = [
@@ -53,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         color: Colors.lightGreen,
         isAllDay: false,
         isDone: true,
-        icon: 'assets/event1.jpg',
+        //icon: 'assets/event1.jpg',
         wide: false),
     NeatCleanCalendarEvent('Allday Event B',
         description: 'test desc',
@@ -63,7 +87,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             DateTime.now().day + 2, 17, 0),
         color: Colors.pink,
         isAllDay: true,
-        icon: 'assets/event1.jpg',
+        //icon: 'assets/event1.jpg',
         wide: false),
     NeatCleanCalendarEvent(
       'Normal Event D',
@@ -74,7 +98,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           DateTime.now().year, DateTime.now().month, DateTime.now().day, 17, 0),
       color: Colors.indigo,
       wide: true,
-      icon: 'assets/events.jpg',
+      //icon: 'assets/event.png',
     ),
     NeatCleanCalendarEvent(
       'Normal Event E',
@@ -85,7 +109,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           DateTime.now().year, DateTime.now().month, DateTime.now().day, 9, 0),
       color: Colors.indigo,
       wide: true,
-      icon: 'assets/profile.jpg',
+      //icon: 'assets/profile.jpg',
     ),
   ];
 
@@ -106,6 +130,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: SafeArea(
         child: Calendar(
@@ -149,7 +174,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ),
           eventColor: null,
-          locale: 'de_DE',
+          locale: 'es_MX',
           todayButtonText: 'Heute',
           allDayEventText: 'Ganztägig',
           multiDayEndText: 'Ende',
@@ -178,13 +203,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            showEvents = !showEvents;
-          });
-        },
-        backgroundColor: Colors.green,
-        child: Icon(showEvents ? Icons.visibility_off : Icons.visibility),
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Add Maitenaice'),
+            content: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: const BorderSide(
+                          color: Colors.blue,
+                          width: 3,
+                        )
+                      )
+                    ),
+                    onPressed: () {
+                      _openDatePicker(context);
+                    },
+                    child: const Text('Date Picker'),
+                  ),
+                ),
+                //const SizedBox(height: 200,),
+                Padding(
+                  padding: const EdgeInsets.symmetric( vertical: 60),
+                  child: TextFormField(
+                  controller: datePicked, // Aquí se asigna el controlador
+                  decoration: const InputDecoration(
+                    labelText: 'Fecha seleccionada',
+                    border: OutlineInputBorder(),
+                  ),
+                  readOnly: true,
+                  ),)
+                
+              ],
+            ),
+          ),
+        ),
+        backgroundColor: const Color(0xffb1ff85),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -192,4 +252,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void _handleNewDate(date) {
     print('Date selected: $date');
   }
+
+  void _openDatePicker(BuildContext context) {
+    BottomPicker.date(
+      pickerTitle: const Text(
+        'Set Manteinance Date',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+          color: Colors.blue,
+        ),
+      ),
+      dateOrder: DatePickerDateOrder.dmy,
+      initialDateTime: DateTime(2024, 01, 01),
+      maxDateTime: DateTime(3000),
+      minDateTime: DateTime(2024),
+      pickerTextStyle: const TextStyle(
+        color: Colors.blue,
+        fontWeight: FontWeight.bold,
+        fontSize: 12,
+      ),
+      onChange: (index) {
+        //print(index);
+      },
+      onSubmit: (index) {
+        setState(() {
+        datePicked.text = index.toString().split(" ")[0];
+      });
+        print(index);
+      },
+      bottomPickerTheme: BottomPickerTheme.plumPlate,
+    ).show(context);
+  }
+  
 }
+
+
