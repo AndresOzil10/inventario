@@ -112,7 +112,7 @@ class _Preview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
-      return Center(child: Text('No data available'));
+      return Center(child: Image.asset('assets/images/load.gif'));
     }
     return ListView(
         
