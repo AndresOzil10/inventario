@@ -62,6 +62,7 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
   ListView _ItemsList() {
+    final screenSize = MediaQuery.of(context).size;
     return ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
@@ -73,7 +74,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -91,7 +92,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -109,7 +110,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -127,7 +128,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -145,7 +146,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -163,7 +164,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -181,7 +182,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -199,7 +200,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -217,7 +218,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -235,7 +236,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -253,7 +254,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -271,7 +272,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,
@@ -289,7 +290,7 @@ class _InfoScreenState extends State<InfoScreen> {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
                 child:
                   TextFormFields(
                     //controller: ,

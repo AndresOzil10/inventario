@@ -69,15 +69,16 @@ class _DesingState extends State<Desing> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(
-            height: 400,
+          SizedBox(
+            height: screenSize.height * 0.23,
           ),
           Container(
             padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.symmetric(horizontal: 50),
+            margin: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
             width: double.infinity,
             //height: 750,
             decoration: BoxDecoration(
@@ -91,24 +92,24 @@ class _DesingState extends State<Desing> {
                 ]),
             child: Column(
               children: [
-                const SizedBox(
-                  height: 50,
+                SizedBox(
+                  height: screenSize.height * 0.0,
                 ),
                 Text(
                   'Login',
                   style: GoogleFonts.abrilFatface(
-                    fontSize: 80,
+                    fontSize: screenSize.width * 0.2,
                     color: const Color(0xffD10363),
                   ),
                 ),
-                const SizedBox(height: 80),
+                SizedBox(height: screenSize.height * 0.1),
                 Form(
                   key: _globalKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 80),
+                          padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
                           child: TextFormFields(
                             controller: username,
                             hint: 'mx-ejemplo',
@@ -121,11 +122,11 @@ class _DesingState extends State<Desing> {
                               return null;
                             },
                           )),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: screenSize.height * 0.05,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 80),
+                        padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03), // Ajustar márgenes),
                         child: TextFormFields(
                           controller: password,
                           oscureText: !isVisible,
@@ -149,15 +150,15 @@ class _DesingState extends State<Desing> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 60),
+                      SizedBox(height: screenSize.height * 0.03),
                       MaterialButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
                         disabledColor: const Color(0xffFFE8C8),
                         color: const Color(0xffD10363),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 80, vertical: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.width * 0.2, vertical: 15),
                           child: const Text(
                             'LogIn',
                             style: TextStyle(color: Colors.white),
@@ -183,8 +184,8 @@ class _DesingState extends State<Desing> {
                           }
                         },
                       ),
-                      const SizedBox(
-                        height: 50,
+                      SizedBox(
+                        height: screenSize.width * 0.05,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -42,10 +42,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   final  GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  
 
  bool isVisible= false;
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -57,8 +59,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
               
-                    const ListTile(
-                      title: Text("Register New UserName", style: TextStyle(fontSize: 75, fontWeight: FontWeight.bold),),
+                    ListTile(
+                      title: Text("Register New UserName", style: TextStyle(fontSize: screenSize.width * 0.1, fontWeight: FontWeight.bold),),
                     ),
               
                   //Username

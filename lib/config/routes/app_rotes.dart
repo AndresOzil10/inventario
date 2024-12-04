@@ -48,6 +48,6 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/maintenace',
     //name: LoginScreen.name,
-    builder: (context, state) =>  AddMaintenace(),
+    builder: (context, state) =>  const AddMaintenace(),
   ),
 ]);

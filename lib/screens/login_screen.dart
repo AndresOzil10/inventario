@@ -36,12 +36,12 @@ class _Icon extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: const EdgeInsets.only(top: 30),
+        margin: const EdgeInsets.only(top: 5),
         width: double.infinity,
         child: const Icon(
           Icons.person_pin_circle_sharp,
           color: Color(0xffD10363),
-          size: 250,
+          size: 50,
         ),
       ),
     );
@@ -60,7 +60,7 @@ class _Fondo extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(gradient: LinearGradient(colors: colors)),
       width: double.infinity,
-      height: size.height * 0.4,
+      height: size.height * 0.1,
       child: Stack(
         children: [
           Positioned(top: -40, left: -30, child: Burbuja()),
