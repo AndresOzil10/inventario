@@ -102,7 +102,7 @@ class _DesingState extends State<Desing> {
                     color: const Color(0xffD10363),
                   ),
                 ),
-                SizedBox(height: screenSize.height * 0.1),
+                SizedBox(height: screenSize.height * 0.05),
                 Form(
                   key: _globalKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
