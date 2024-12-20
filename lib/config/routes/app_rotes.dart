@@ -38,7 +38,7 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/asignar',
     //name: LoginScreen.name,
-    builder: (context, state) => const AsignarEquipoScreen(),
+    builder: (context, state) => AsignarEquipoScreen(),
   ),
   GoRoute(
     path: '/info',
