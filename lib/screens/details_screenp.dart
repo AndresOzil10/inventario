@@ -2,23 +2,24 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:inventario/Json/details.dart';
+import 'package:inventario/Json/detailsp.dart';
 
 import '../config/constants/enviroment.dart';
 import '../widgets/custom_text_form.dart';
 
 // ignore: must_be_immutable
-class InfoScreen extends StatefulWidget {
+class DetailsScreenP extends StatefulWidget {
   String text;
   // ignore: use_key_in_widget_constructors
-  InfoScreen(this.text);
+  DetailsScreenP(this.text);
 
   @override
-  State<InfoScreen> createState() => _InfoScreenState();
+  State<DetailsScreenP> createState() => _DetailsScreenPState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _DetailsScreenPState extends State<DetailsScreenP> {
   List items = [];
+
   final dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.apiUrl,
@@ -32,7 +33,7 @@ class _InfoScreenState extends State<InfoScreen> {
   }
 
    Future getDetails() async {
-   final response = await dio.get('/getdetails.php', data: {
+   final response = await dio.get('/getdetailsP.php', data: {
     "name":widget.text
    }); // texto
 
@@ -40,7 +41,7 @@ class _InfoScreenState extends State<InfoScreen> {
     //print(jsonResponse);
     setState(() {
       for(final item in jsonResponse){ // se realiza un for para llamar cada 'Area' y mostrarla en el menu
-        items.add( Details.fromJson(item)); // se añade el 'area' al listado de items     
+        items.add( DetailsP.fromJson(item)); // se añade el 'area' al listado de items     
       }
     });
   }
@@ -88,12 +89,48 @@ class _InfoScreenState extends State<InfoScreen> {
                   TextFormFields(
                     //controller: ,
                     //hint: '24NR824', 
-                    labelText: 'Username:', 
+                    labelText: 'Area:', 
                     icono: const Icon(Icons.person_3), 
                     validators: (value){
                       return;
                     },
-                    initialValue: list.usuario,
+                    initialValue: list.idArea
+                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                    ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
+                child:
+                  TextFormFields(
+                    //controller: ,
+                    //hint: '24NR824', 
+                    labelText: 'Location:', 
+                    icono: const Icon(Icons.person), 
+                    validators: (value){
+                      return;
+                    },
+                    initialValue: list.location
+                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                    ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
+                child:
+                  TextFormFields(
+                    //controller: ,
+                    //hint: '24NR824', 
+                    labelText: 'Serial:', 
+                    icono: const Icon(Icons.date_range), 
+                    validators: (value){
+                      return;
+                    },
+                    initialValue: list.serial,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
               ),
@@ -107,29 +144,11 @@ class _InfoScreenState extends State<InfoScreen> {
                     //controller: ,
                     //hint: '24NR824', 
                     labelText: 'Name:', 
-                    icono: const Icon(Icons.person), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.tipo+list.serie,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Initial Date:', 
                     icono: const Icon(Icons.date_range), 
                     validators: (value){
                       return;
                     },
-                    initialValue: list.fechaInicioEquipo.toString(),
+                    initialValue: list.name,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
               ),
@@ -142,30 +161,12 @@ class _InfoScreenState extends State<InfoScreen> {
                   TextFormFields(
                     //controller: ,
                     //hint: '24NR824', 
-                    labelText: 'Warranty End Date:', 
-                    icono: const Icon(Icons.date_range), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.fechaFinalGarantia.toString(),
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Days Final Guarantee:', 
+                    labelText: 'Ip:', 
                     icono: const Icon(Icons.numbers), 
                     validators: (value){
                       return;
                     },
-                    initialValue: "",
+                    initialValue: list.ip,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
               ),
@@ -178,12 +179,12 @@ class _InfoScreenState extends State<InfoScreen> {
                   TextFormFields(
                     //controller: ,
                     //hint: '24NR824', 
-                    labelText: 'Warranty Status:', 
+                    labelText: 'MAC:', 
                     icono: const Icon(Icons.check), 
                     validators: (value){
                       return;
                     },
-                    initialValue: list.estatusGarantia,
+                    initialValue: list.mac,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
               ),
@@ -196,12 +197,12 @@ class _InfoScreenState extends State<InfoScreen> {
                   TextFormFields(
                     //controller: ,
                     //hint: '24NR824', 
-                    labelText: 'Docking:', 
+                    labelText: 'Type:', 
                     icono: const Icon(Icons.dvr), 
                     validators: (value){
                       return;
                     },
-                    initialValue: list.docking,
+                    initialValue: list.tipo,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
               ),
@@ -214,104 +215,14 @@ class _InfoScreenState extends State<InfoScreen> {
                   TextFormFields(
                     //controller: ,
                     //hint: '24NR824', 
-                    labelText: 'Headphones:', 
+                    labelText: 'Observations:', 
                     icono: const Icon(Icons.headphones), 
                     validators: (value){
                       return;
                     },
-                    initialValue: list.diadema,
+                    initialValue: list.observation,
                     //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                     ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Monitor', 
-                    icono: const Icon(Icons.monitor), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.monitor,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Keyboard/Mouse:', 
-                    icono: const Icon(Icons.mouse), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.tecladoMouse,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Camera:', 
-                    icono: const Icon(Icons.camera), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.camara,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Others:', 
-                    icono: const Icon(Icons.devices_other), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.otros,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                    ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
-                child:
-                  TextFormFields(
-                    //controller: ,
-                    //hint: '24NR824', 
-                    labelText: 'Area:', 
-                    icono: const Icon(Icons.area_chart), 
-                    validators: (value){
-                      return;
-                    },
-                    initialValue: list.area,
-                    //suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                  ),
               ),
               const SizedBox(
                 height: 20,

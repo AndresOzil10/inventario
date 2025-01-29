@@ -118,11 +118,11 @@ class _Preview extends StatelessWidget {
         
         children:[
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Computer Equipment'), subtitle: Text('Online: ${items[0]}'), icon: Image.asset('assets/images/1.gif'), button: Text('Stock: ${items[1]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
+        CustomInfo(label: const Text('Computer Equipment'), subtitle: Text('Online: ${items[0]}'), icon: Image.asset('assets/images/1.gif'), button: Text('Stock: ${items[1]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoC') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Printers'), subtitle: Text('Online: ${items[2]}'), icon: Image.asset('assets/images/2.gif'), button: Text('Stock: ${items[3]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/info') },),
+        CustomInfo(label: const Text('Printers'), subtitle: Text('Online: ${items[2]}'), icon: Image.asset('assets/images/2.gif'), button: Text('Stock: ${items[3]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoP') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Scanners'), subtitle: Text('Online: ${items[4]}'), icon: Image.asset('assets/images/3.gif'), button: Text('Stock: ${items[5]}'), color: const Color(0xfff9d423), funcion: () {  },),
+        CustomInfo(label: const Text('Scanners'), subtitle: Text('Online: ${items[4]}'), icon: Image.asset('assets/images/3.gif'), button: Text('Stock: ${items[5]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoS') },),
         const SizedBox(height: 20,),
         CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Online: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),

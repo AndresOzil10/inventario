@@ -49,7 +49,7 @@ class AsignarEquipoScreen extends StatelessWidget {
           title: const Text("Assign Equipment"),
           actions: [
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               onPressed: _generatePdf,
             ),
           ],
@@ -70,7 +70,7 @@ class AsignarEquipoScreen extends StatelessWidget {
                 onPressed: () {
                   _controller.clear();
                 },
-                child: Text('Limpiar'),
+                child: const Text('Limpiar'),
               ),
             ],
           ),

@@ -2,22 +2,23 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:inventario/screens/details_screenp.dart';
 
-import '../Json/hostname.dart';
+import '../Json/printers.dart';
 import '../config/constants/enviroment.dart';
-import 'details_screen.dart';
 
 
 // ignore: must_be_immutable
-class InfScreen extends StatefulWidget {
-  const InfScreen({super.key});
+class InfScreenP extends StatefulWidget {
+  const InfScreenP({super.key});
 
   @override
-  State<InfScreen> createState() => _InfScreenState();
+  State<InfScreenP> createState() => _InfScreenPState();
 }
 
-class _InfScreenState extends State<InfScreen> {
+class _InfScreenPState extends State<InfScreenP> {
   List items = [];
+
   final dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.apiUrl,
@@ -33,12 +34,12 @@ class _InfScreenState extends State<InfScreen> {
   }
 
   Future getData() async {
-      final response = await dio.get('/getdataC.php');
+      final response = await dio.get('/getdataP.php');
       //print(response.data);
         final jsonResponse = json.decode(response.data);
         setState(() {
           for(final item in jsonResponse){ // se realiza un for para llamar cada 'Area' y mostrarla en el menu
-            items.add( HostName.fromJson(item)); // se añade el 'area' al listado de items
+            items.add( Printer.fromJson(item)); // se añade el 'area' al listado de items
           }
         });
  }
@@ -64,7 +65,7 @@ class _InfScreenState extends State<InfScreen> {
               titleTextStyle: const TextStyle( color: Color(0xff8c162a)),
               trailing: const Icon(Icons.arrow_right_rounded),
               onTap: () =>{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => InfoScreen(list.name)))
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreenP(list.name)))
               } //context.push('/details'),
             ),
           );

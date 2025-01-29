@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import '../widgets/cupertino_date_textbox.dart';
@@ -19,16 +18,16 @@ class _AddMaintenaceState extends State<AddMaintenace> {
 
   @override
   Widget build(BuildContext context) {
-    final String formattedDate = DateFormat.yMd().format(_selectedDateTime);
-    final selectedText = Text('You selected: $formattedDate');
+    //final String formattedDate = DateFormat.yMd().format(_selectedDateTime);
+    //final selectedText = Text('You selected: $formattedDate');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Calendario de Eventos'),
       ),
-      body: Container(
+      body: const SizedBox(
         width: 800, // Ancho fijo
         height: 480,
-        child: const SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               CalendarScreen(),
@@ -113,7 +112,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       builder: (context, constraints){
       return Column(
         children: [
-          Container(
+          SizedBox(
             width: constraints.maxWidth,
             child: TableCalendar(
               firstDay: DateTime.utc(2024, 1, 1),

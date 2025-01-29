@@ -1,23 +1,23 @@
 
-class HostName {
-    // final String? hostname;
+class Printer {
+    // final String? Printer;
     final String name;
     // final String? location;
 
-    HostName({
-        // this.hostname,
+    Printer({
+        // this.Printer,
         // this.location,
         required this.name,
     });
 
-    factory HostName.fromJson(Map<String, dynamic> json) => HostName(
-        // hostname: json["hostname"],
+    factory Printer.fromJson(Map<String, dynamic> json) => Printer(
+        // Printer: json["Printer"],
         name: json["name"],
         // location: json["location"],
     );
 
     Map<String, dynamic> toJson() => {
-        // "hostname": hostname,
+        // "Printer": Printer,
         "name": name,
         // "location": location,
     };
