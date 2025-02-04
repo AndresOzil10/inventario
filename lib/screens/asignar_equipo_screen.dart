@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:inventario/config/constants/enviroment.dart';
 import 'package:inventario/widgets/custom_text_form.dart';
 import 'package:transfer_list/transfer_list.dart';
 
@@ -18,7 +22,31 @@ final List<String> _genderItems = <String>[
   'Female',
 ];
 
+final dio = Dio(
+    BaseOptions(
+      baseUrl: Enviroment.apiUrl,
+    )
+  );
+
+String name='', area='' ;
+void _enviarNN(String nn) async {
+  final response = await dio.post('/searchNN.php', data: {'nn': nn});
+  if(response.statusCode == 200){
+
+    final data = jsonDecode(response.data);
+    name = data['nombre'].toString();
+    area = data['area'].toString();
+    //print(name);
+  }
+  else{
+    print('Error');
+  }
+
+}
+
 class AsignarEquipoScreen extends StatefulWidget {
+
+  
   AsignarEquipoScreen({super.key});
 
   @override
@@ -123,7 +151,11 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
                     ),
                     const SizedBox(width: 8), // Espacio entre el TextFormField y el botón
                     TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        String nn = userNN.text;
+
+                        _enviarNN(nn);
+                      },
                       label: const Text("Search"),
                       icon: const Icon(Icons.search),
                     ),
@@ -132,22 +164,22 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
                 SizedBox(
                   height: screenSize.height * 0.05,
                 ),
-                const Card(
+                Card(
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text("User Information"),
+                        title: const Text("User Information"),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Name: Juanito Perez"),
-                            Text("NN: 0000"),
-                            Text("Area: 1"),
+                            Text("Name: $name"),
+                            Text("NN: ${userNN.text}"),
+                            Text("Area: $area"),
                           ],
                         ),
                       ),
-                      Divider(),
-                      ListTile(
+                      const Divider(),
+                      const ListTile(
                         title: Text("Equipment Information"),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
