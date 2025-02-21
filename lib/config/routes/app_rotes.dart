@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:inventario/screens/add_maintenace.dart';
-import 'package:inventario/screens/add_screen.dart';
+import 'package:inventario/screens/add_equipment.dart';
 import 'package:inventario/screens/asignar_equipo_screen.dart';
 import 'package:inventario/screens/details_screen.dart';
 import 'package:inventario/screens/home_screen.dart';
@@ -10,6 +9,8 @@ import 'package:inventario/screens/register_screen.dart';
 
 import '../../screens/info_screenP.dart';
 import '../../screens/login_screen.dart';
+import '../../screens/testCalendarView.dart';
+import '../../screens/tonners_screen.dart';
 
 final appRouter = GoRouter(routes: [
   GoRoute(
@@ -35,7 +36,7 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/add',
     //name: LoginScreen.name,
-    builder: (context, state) => const AddScreen(),
+    builder: (context, state) =>  AddEquipment(),
   ),
   GoRoute(
     path: '/asignar',
@@ -60,6 +61,13 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/maintenace',
     //name: LoginScreen.name,
-    builder: (context, state) =>  const AddMaintenace(),
+    //  builder: (context, state) =>  const AddMaintenance(),
+    builder: (context, state) => const CalendarScreen(),
+  ),
+  GoRoute(
+    path: '/tonner',
+    //name: LoginScreen.name,
+    //  builder: (context, state) =>  const AddMaintenance(),
+    builder: (context, state) => TonnerScreen(),
   ),
 ]);

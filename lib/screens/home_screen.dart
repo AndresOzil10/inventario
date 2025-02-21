@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xff364461),
         foregroundColor: const Color(0xffe0e4ce), //Color de letra
         centerTitle: true,
-        title: const Text("Equipment Inventory Kayser"),
+        title: const Text("Equipment Inventory Kayser", style: TextStyle(fontSize: 21),),
       ),
       body: _Preview(items: items) ,
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
@@ -89,10 +89,10 @@ class _Options extends StatelessWidget {
               leading: const Icon(Icons.assignment),
               onTap: () => context.push('/asignar'),
             ),
-            const ListTile(
-              title: Text('Racks'),
-              leading: Icon(Icons.tab),
-            ),
+            ListTile(
+              title: const Text('Tonners'),
+              leading: const Icon(Icons.tonality),
+              onTap: () => context.push('/tonner')),
             ListTile(
               title: const Text('Schedule Maintenance'),
               leading: const Icon(Icons.schedule_outlined),
@@ -127,12 +127,12 @@ class _Preview extends StatelessWidget {
         CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Online: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),
         CustomInfo(label: const Text('Antenas'), subtitle: Text('Online: ${items[6]}'), icon: Image.asset('assets/images/5.gif'), button: Text('Stock: ${items[7]}'), color: const Color(0xfff9d423), funcion: () {  },),
-        const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Machines'), subtitle: const Text('Online: 38'), icon: Image.asset('assets/images/6.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },),
+        // const SizedBox(height: 20,),
+        // CustomInfo(label: const Text('Machines'), subtitle: const Text('Online: 38'), icon: Image.asset('assets/images/6.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),
         CustomInfo(label: const Text('Terminals'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/7.gif'), button: const Text('Stock: 4'), color: const Color(0xfff9d423), funcion: () {  },),
-        const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Racks'), subtitle: const Text('Online: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },)
+        // const SizedBox(height: 20,),
+        // CustomInfo(label: const Text('Racks'), subtitle: const Text('Online: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },)
       
       ],
     );

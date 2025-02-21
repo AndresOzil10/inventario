@@ -1,27 +1,18 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inventario/config/constants/enviroment.dart';
 import 'package:inventario/widgets/custom_text_form.dart';
-import 'package:transfer_list/transfer_list.dart';
+import 'package:signature/signature.dart';
 
-const List<String> _fruitNames = <String>[
-  'Apple',
-  'Mango',
-  'Banana',
-  'Orange',
-  'Pineapple',
-  'Strawberry',
-];
+import '../functions/pdf.dart';
 
-final List<String> _genderItems = <String>[
-  'Male',
-  'Female',
-];
 
+
+
+// API
 final dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.apiUrl,
@@ -29,11 +20,15 @@ final dio = Dio(
   );
 
 String name='', area='' ;
+
+String tipo='', serial='';
+
+//Obtener los datos del usuario
 void _enviarNN(String nn) async {
   final response = await dio.post('/searchNN.php', data: {'nn': nn});
   if(response.statusCode == 200){
 
-    final data = jsonDecode(response.data);
+    final data =  jsonDecode(response.data);
     name = data['nombre'].toString();
     area = data['area'].toString();
     //print(name);
@@ -44,26 +39,104 @@ void _enviarNN(String nn) async {
 
 }
 
+
 class AsignarEquipoScreen extends StatefulWidget {
 
   
-  AsignarEquipoScreen({super.key});
+  const AsignarEquipoScreen({super.key});
 
   @override
   State<AsignarEquipoScreen> createState() => _AsignarEquipoScreenState();
+
+
 }
 
 class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
-  int _selectedFruit = 0;
+  int _selectedLaptop = 0;
   int _selectedDocking = 0;
-  String? _selectedCargador;
-  String? _selectedDiadema;
-  String? _selectedMonitor;
-  String? _selectedTecladoMouse;
-  String? _selectedCamara;
+  int _selectedCargador= 0;
+  int _selectedDiadema = 0;
+  int _selectedMonitor = 0;
+  int _selectedTecladoMouse = 0;
+  int _selectedCamara = 0;
+  List<String> laptops = [];
+  List<String> dockings = [];
+  List<String> monitors = [];
+  List<String> tecladosMouse = [];
+  List<String> diademas = [];
+  List<String> cargadores = [];
+  List<String> camara = [];
+
+void _computers() async {
+  final response = await dio.post('/computers.php');
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.data);
+      for (var item in data) {
+        String tipo = item['tipo'] as String;
+        String serial = item['serial'] as String;
+
+        laptops.add(serial);
+      }
+    }
+}
+
+ void _complements() async {
+  try {
+    final response = await dio.post('/complements.php');
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.data);
+
+      // Filtrar los seriales por tipo
+      for (var item in data) {
+        String tipo = item['tipo'] as String;
+        String serial = item['serial'] as String;
+
+        switch (tipo) {
+          case 'Docking':
+            dockings.add(serial);
+            break;
+          case 'Monitor':
+            monitors.add(serial);
+            break;
+          case 'Teclado/Mouse':
+            tecladosMouse.add(serial);
+            break;
+          case 'Diadema':
+            diademas.add(serial);
+            break;
+          case 'Cargador':
+            cargadores.add(serial);
+            break;
+          case 'Camara':
+            camara.add(serial);
+            break;
+        }
+      }
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _complements();
+    _computers();
+  }
 
   final userNN = TextEditingController();
 
+  // ignore: unused_element
+  void _save () async {
+    generatePdf( name, laptops[_selectedLaptop]);
+  }
+
+
+// Muestra los datos seleccionados para la confirmacion
   void _showSelect() {
     showDialog(
       context: context,
@@ -73,13 +146,13 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("NN: ${userNN.text}"),
-            Text("Selected Laptop: ${_fruitNames[_selectedFruit]}"),
-            Text("Selected Docking: ${_genderItems[_selectedDocking]}"),
-            Text("Selected Cargador: $_selectedCargador"),
-            Text("Selected Diadema: $_selectedDiadema"),
-            Text("Selected Monitor: $_selectedMonitor"),
-            Text("Selected Teclado/Mouse: $_selectedTecladoMouse"),
-            Text("Selected Camara: $_selectedCamara"),
+            Text("Selected Laptop: ${laptops[_selectedLaptop]}"),
+            Text("Selected Docking: ${dockings[_selectedDocking]}"),
+            Text("Selected Cargador: ${cargadores.isNotEmpty ? cargadores[_selectedCargador] : '-'}"),
+            Text("Selected Diadema: ${diademas[_selectedDiadema]}"),
+            Text("Selected Monitor: ${monitors[_selectedMonitor]}"),
+            Text("Selected Teclado/Mouse: ${tecladosMouse[_selectedTecladoMouse]}"),
+            Text("Selected Camara: ${camara.isNotEmpty ? camara[_selectedCamara] : '-'}"),
           ],
         ),
         actions: [
@@ -89,8 +162,7 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
           ),
           TextButton(
             onPressed: () {
-              // Aquí puedes agregar la lógica para asignar el equipo
-              Navigator.pop(context);
+              firma( name, laptops[_selectedLaptop], context );
             },
             child: const Text("Assign"),
           ),
@@ -99,6 +171,9 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
     );
   }
 
+// Para cargar la imagen desde assets
+
+// Muestra el cuadro de dialogo
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
       context: context,
@@ -133,393 +208,277 @@ class _AsignarEquipoScreenState extends State<AsignarEquipoScreen> {
           title: const Text("Assign Equipment"),
         ),
         body: SafeArea(
-          child: Container(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.all(10),
-            margin: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
-            width: double.infinity,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormFields(
-                        controller: userNN,
-                        labelText: 'NN:',
-                        icono: const Icon(Icons.person_2_rounded),
-                        hint: '0000 Juanito Perez',
-                      ),
-                    ),
-                    const SizedBox(width: 8), // Espacio entre el TextFormField y el botón
-                    TextButton.icon(
-                      onPressed: () {
-                        String nn = userNN.text;
-
-                        _enviarNN(nn);
-                      },
-                      label: const Text("Search"),
-                      icon: const Icon(Icons.search),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.05,
-                ),
-                Card(
-                  child: Column(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+              width: double.infinity,
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      ListTile(
-                        title: const Text("User Information"),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Name: $name"),
-                            Text("NN: ${userNN.text}"),
-                            Text("Area: $area"),
-                          ],
+                      Expanded(
+                        child: TextFormFields(
+                          controller: userNN,
+                          labelText: 'NN:',
+                          icono: const Icon(Icons.person_2_rounded),
+                          hint: '0000 Juanito Perez',
                         ),
                       ),
-                      const Divider(),
-                      const ListTile(
-                        title: Text("Equipment Information"),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Serial: -"),
-                            Text("Model: -"),
-                            Text("Brand: -"),
-                          ],
-                        ),
+                      const SizedBox(width: 8), // Espacio entre el TextFormField y el botón
+                      TextButton.icon(
+                        onPressed: () {
+                          String nn = userNN.text;
+
+                          _enviarNN(nn);
+                        },
+                        label: const Text("Search"),
+                        icon: const Icon(Icons.search),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.01,
-                ),
-                const Divider(),
-                Card(
-                  child: Column(
-                    children: [
-                      const Text("Asignar Nuevos Equipos"),
-                      SizedBox(
-                        height: screenSize.height * 0.05,
-                      ),
-                      const Text("Laptop:"),
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(10),
-                        onPressed: () => _showDialog(
-                          CupertinoPicker(
-                            magnification: 1.22,
-                            squeeze: 1.2,
-                            useMagnifier: true,
-                            itemExtent: 32, 
-                            scrollController: FixedExtentScrollController(
-                              initialItem: _selectedFruit,
-                            ),
-                            onSelectedItemChanged: (int selectedItem){
-                              setState((){
-                                _selectedFruit = selectedItem;
-                              });
-                            }, 
-                            children: List.generate(_fruitNames.length, (int index){
-                              return Center(
-                                child: Text(_fruitNames[index]),
-                              );
-                            })
-                          )
-                        ), child: Text(
-                          _fruitNames[_selectedFruit],
-                          style: const TextStyle(
-                            color: Color(0xff364461),
-                            fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: const Text("User Information"),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Name: $name"),
+                              Text("NN: ${userNN.text}"),
+                              Text("Area: $area"),
+                            ],
                           ),
                         ),
-                      ),
-                      const Text("Docking:"),
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(10),
-                        onPressed: () => _showDialog(
-                          CupertinoPicker(
-                            magnification: 1.22,
-                            squeeze: 1.2,
-                            useMagnifier: true,
-                            itemExtent: 32, 
-                            scrollController: FixedExtentScrollController(
-                              initialItem: _selectedDocking,
-                            ),
-                            onSelectedItemChanged: (int selectedItem){
-                              setState((){
-                                _selectedDocking = selectedItem;
-                              });
-                            }, 
-                            children: List.generate(_genderItems.length, (int index){
-                              return Center(
-                                child: Text(_genderItems[index]),
-                              );
-                            })
-                          )
-                        ), child: Text(
-                          _genderItems[_selectedDocking],
-                          style: const TextStyle(
-                            color: Color(0xff364461),
-                            fontWeight: FontWeight.bold,
+                        const ListTile(
+                          title: Text("Equipment Information"),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Serial: -"),
+                              Text("Model: -"),
+                              Text("Brand: -"),
+                            ],
                           ),
                         ),
-                      ),
-                      const Text("Cargador:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Cargador"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a Cargador';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                      const Text("Docking:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Docking"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select Docking';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                      const Text("Diadema:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Diadema"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a Diadema';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                      const Text("Monitor:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Monitor"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a Monitor';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                      const Text("Teclado/Mouse:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Teclado/Mouse"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a Teclado/Mouse';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                      const Text("Camara:"),
-                      DropdownButtonFormField2(
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        hint: const Text("Select Monitor"),
-                        style: const TextStyle(fontSize: 14),  
-                        items: _genderItems.map((item) => DropdownMenuItem(
-                          value: item,
-                          child: Text(item , style: const TextStyle(fontSize: 14, color: Colors.black),),
-                        )).toList(),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a Monitor';
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => print(value),
-                        buttonStyleData: const ButtonStyleData(
-                          padding: EdgeInsets.only(right: 8)
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Color(0xff364461),
-                          ),
-                          iconSize: 24
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15)
-                          )
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          padding: EdgeInsets.symmetric(horizontal: 16)
-                        ),
-                      ),
-                    ],
+                      ],
                     ),
-                ),
-                TextButton(
-                  onPressed: () => _showSelect(),
-                  child: const Text("Assign"),
-                ),
-              ],
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  const Divider(),
+                  Card(
+                    child: Column(
+                      children: [
+                        const Text("Asignar Nuevos Equipos"),
+                        SizedBox(
+                          height: screenSize.height * 0.01,
+                        ),
+                          const Text("Laptop:"),
+                          CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedLaptop,
+                            ),
+                            onSelectedItemChanged: (int selectedItem) {
+                              setState(() {
+                              _selectedLaptop = selectedItem;
+                              });
+                            },
+                            children: List.generate(laptops.length, (int index) {
+                              return Center(
+                              child: Text(laptops[index]),
+                              );
+                            }),
+                            ),
+                          ),
+                          child: Text(
+                            laptops.isNotEmpty ? laptops[_selectedLaptop] : 'No Laptops Available',
+                            style: const TextStyle(
+                            color: Color(0xff364461),
+                            fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ),
+                        const Text("Docking:"),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                              magnification: 1.22,
+                              squeeze: 1.2,
+                              useMagnifier: true,
+                              itemExtent: 32, 
+                              scrollController: FixedExtentScrollController(
+                                initialItem: _selectedDocking,
+                              ),
+                              onSelectedItemChanged: (int selectedItem){
+                                setState((){
+                                  _selectedDocking = selectedItem;
+                                });
+                              }, 
+                              children: List.generate(dockings.length, (int index){
+                                return Center(
+                                  child: Text(dockings[index]),
+                                );
+                              })
+                            )
+                          ), child: Text(
+                            dockings.isNotEmpty ? dockings[_selectedDocking] : 'No Dockings Available',
+                            style: const TextStyle(
+                              color: Color(0xff364461),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const Text("Cargador:"),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedCargador,
+                            ),
+                            onSelectedItemChanged: (int selectedItem) {
+                              setState(() {
+                              _selectedCargador = selectedItem;
+                              });
+                            },
+                            children: List.generate(cargadores.length, (int index) {
+                              return Center(
+                              child: Text(cargadores[index]),
+                              );
+                            }),
+                            ),
+                          ),
+                          child: Text(
+                            cargadores.isNotEmpty ? cargadores[_selectedCargador] : 'No Laptops Available',
+                            style: const TextStyle(
+                            color: Color(0xff364461),
+                            fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ),
+                        const Text("Diadema:"),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedDiadema,
+                            ),
+                            onSelectedItemChanged: (int selectedItem) {
+                              setState(() {
+                              _selectedDiadema = selectedItem;
+                              });
+                            },
+                            children: List.generate(diademas.length, (int index) {
+                              return Center(
+                              child: Text(diademas[index]),
+                              );
+                            }),
+                            ),
+                          ),
+                          child: Text(
+                            diademas.isNotEmpty ? diademas[_selectedDiadema] : 'No Diademas Available',
+                            style: const TextStyle(
+                            color: Color(0xff364461),
+                            fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ),
+                        const Text("Monitor:"),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedMonitor,
+                            ),
+                            onSelectedItemChanged: (int selectedItem) {
+                              setState(() {
+                              _selectedMonitor = selectedItem;
+                              });
+                            },
+                            children: List.generate(monitors.length, (int index) {
+                              return Center(
+                              child: Text(monitors[index]),
+                              );
+                            }),
+                            ),
+                          ),
+                          child: Text(
+                            monitors.isNotEmpty ? monitors[_selectedMonitor] : 'No Laptops Available',
+                            style: const TextStyle(
+                            color: Color(0xff364461),
+                            fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ),
+                        const Text("Teclado/Mouse:"),
+                        CupertinoButton(
+                          padding: const EdgeInsets.all(10),
+                          onPressed: () => _showDialog(
+                            CupertinoPicker(
+                            magnification: 1.22,
+                            squeeze: 1.2,
+                            useMagnifier: true,
+                            itemExtent: 32,
+                            scrollController: FixedExtentScrollController(
+                              initialItem: _selectedTecladoMouse,
+                            ),
+                            onSelectedItemChanged: (int selectedItem) {
+                              setState(() {
+                              _selectedTecladoMouse = selectedItem;
+                              });
+                            },
+                            children: List.generate(tecladosMouse.length, (int index) {
+                              return Center(
+                              child: Text(tecladosMouse[index]),
+                              );
+                            }),
+                            ),
+                          ),
+                          child: Text(
+                            tecladosMouse.isNotEmpty ? tecladosMouse[_selectedTecladoMouse] : 'No Laptops Available',
+                            style: const TextStyle(
+                            color: Color(0xff364461),
+                            fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          ),
+                      ],
+                      ),
+                  ),
+                  TextButton(
+                    onPressed: () => _showSelect(),
+                    child: const Text("Assign"),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

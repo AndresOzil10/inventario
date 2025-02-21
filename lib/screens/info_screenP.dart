@@ -7,7 +7,6 @@ import 'package:inventario/screens/details_screenp.dart';
 import '../Json/printers.dart';
 import '../config/constants/enviroment.dart';
 
-
 // ignore: must_be_immutable
 class InfScreenP extends StatefulWidget {
   const InfScreenP({super.key});
@@ -18,7 +17,7 @@ class InfScreenP extends StatefulWidget {
 
 class _InfScreenPState extends State<InfScreenP> {
   List items = [];
-
+  List filteredItems = [];
   final dio = Dio(
     BaseOptions(
       baseUrl: Enviroment.apiUrl,
@@ -28,51 +27,93 @@ class _InfScreenPState extends State<InfScreenP> {
   @override
   void initState() {
     super.initState();
-    //print(widget.extraData);
     getData();
-    
   }
 
   Future getData() async {
-      final response = await dio.get('/getdataP.php');
-      //print(response.data);
-        final jsonResponse = json.decode(response.data);
-        setState(() {
-          for(final item in jsonResponse){ // se realiza un for para llamar cada 'Area' y mostrarla en el menu
-            items.add( Printer.fromJson(item)); // se añade el 'area' al listado de items
-          }
-        });
- }
+    final response = await dio.get('/getdataP.php');
+    final jsonResponse = json.decode(response.data);
+    setState(() {
+      for (final item in jsonResponse) {
+        items.add(Printer.fromJson(item));
+      }
+      filteredItems = items;
+    });
+  }
 
- 
+  void filterSearchResults(String query) {
+    List dummySearchList = [];
+    dummySearchList.addAll(items);
+    if (query.isNotEmpty) {
+      List dummyListData = [];
+      for (var item in dummySearchList) {
+        if (item.name.toLowerCase().contains(query.toLowerCase())) {
+          dummyListData.add(item);
+        }
+      }
+      setState(() {
+        filteredItems = dummyListData;
+      });
+      return;
+    } else {
+      setState(() {
+        filteredItems = items;
+      });
+    }
+  }
 
   @override
-  Widget build(BuildContext context) { 
-    return  Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff364461),
         foregroundColor: const Color(0xffe0e4ce), //Color de letra
         centerTitle: true,
         title: const Text("Equipment Inventory Kayser"),
       ),
-      body:  ListView.builder(
-        itemCount: items.length,
-        itemBuilder:(context, index) {
-          final list = items[index];
-          return Card(
-            child: ListTile(
-              title: Text(list.name),
-              titleTextStyle: const TextStyle( color: Color(0xff8c162a)),
-              trailing: const Icon(Icons.arrow_right_rounded),
-              onTap: () =>{
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsScreenP(list.name)))
-              } //context.push('/details'),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                filterSearchResults(value);
+              },
+              decoration: const InputDecoration(
+                labelText: "Search",
+                hintText: "Search",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                ),
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredItems.length,
+              itemBuilder: (context, index) {
+                final list = filteredItems[index];
+                return Card(
+                  child: ListTile(
+                    title: Text(list.name),
+                    titleTextStyle: const TextStyle(color: Color(0xff8c162a)),
+                    trailing: const Icon(Icons.arrow_right_rounded),
+                    onTap: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsScreenP(list.name),
+                        ),
+                      )
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
-

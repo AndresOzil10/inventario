@@ -3,7 +3,9 @@ import 'package:inventario/Json/dropdown_list.dart';
 
 class CustomDropdownList extends StatefulWidget {
   final List<MenuItem> menuItems;
-  const CustomDropdownList({super.key, required this.menuItems});
+  final TextEditingController controller;
+
+  const CustomDropdownList({super.key, required this.menuItems, required this.controller});
 
   @override
   State<CustomDropdownList> createState() => _CustomDropdownListState();
@@ -14,11 +16,13 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
 
   MenuItem? selectedMenu;
 
+  
+
   @override
   Widget build(BuildContext context) {
     return DropdownMenu(
       //initialSelection: widget.menuItems.first,
-      controller: menuController,
+      controller: widget.controller,
       width: MediaQuery.of(context).size.width-160.0,
       hintText: "Select Option",
       requestFocusOnTap: true,
@@ -27,6 +31,7 @@ class _CustomDropdownListState extends State<CustomDropdownList> {
       onSelected: (MenuItem? menu) {
         setState(() {
           selectedMenu = menu;
+          //print(selectedMenu!.label);
         });
       },
       dropdownMenuEntries: widget.menuItems.map<DropdownMenuEntry<MenuItem>>((MenuItem menu){
