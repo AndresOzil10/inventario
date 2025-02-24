@@ -77,25 +77,25 @@ class _Options extends StatelessWidget {
             accountEmail: const Text(''),
             currentAccountPicture: const CircleAvatar(backgroundColor: Colors.white),
             decoration: const BoxDecoration(
-              color: Color(0xff583b7e),
+              color: Color.fromARGB(255, 212, 11, 38),
             ),
           ),
             const ListTile(
               title: Text('Home'),
-              leading: Icon(Icons.home),
+              leading: Icon(Icons.home, color: Colors.blueAccent,),
             ),
             ListTile(
               title: const Text('Assign Equipment'),
-              leading: const Icon(Icons.assignment),
+              leading: const Icon(Icons.assignment, color: Colors.blueAccent,),
               onTap: () => context.push('/asignar'),
             ),
             ListTile(
               title: const Text('Tonners'),
-              leading: const Icon(Icons.tonality),
+                leading: const Icon(Icons.tonality, color: Colors.blueAccent),
               onTap: () => context.push('/tonner')),
             ListTile(
               title: const Text('Schedule Maintenance'),
-              leading: const Icon(Icons.schedule_outlined),
+              leading: const Icon(Icons.schedule_outlined, color: Colors.blueAccent,),
               onTap: () => context.push('/maintenace'),
             ),
           ],
@@ -118,19 +118,19 @@ class _Preview extends StatelessWidget {
         
         children:[
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Computer Equipment'), subtitle: Text('Online: ${items[0]}'), icon: Image.asset('assets/images/1.gif'), button: Text('Stock: ${items[1]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoC') },),
+        CustomInfo(label: const Text('Computer Equipment', style: TextStyle(fontWeight: FontWeight.bold),), subtitle: Text('Online: ${items[0]}', style: const TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/1.gif'), button: Text('Stock: ${items[1]}', style: const TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () => { context.push('/infoC') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Printers'), subtitle: Text('Online: ${items[2]}'), icon: Image.asset('assets/images/2.gif'), button: Text('Stock: ${items[3]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoP') },),
+        CustomInfo(label: const Text('Printers', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: Text('Online: ${items[2]}', style: const TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/2.gif'), button: Text('Stock: ${items[3]}', style: const TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () => { context.push('/infoP') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Scanners'), subtitle: Text('Online: ${items[4]}'), icon: Image.asset('assets/images/3.gif'), button: Text('Stock: ${items[5]}'), color: const Color(0xfff9d423), funcion: () => { context.push('/infoS') },),
+        CustomInfo(label: const Text('Scanners', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: Text('Online: ${items[4]}', style: const TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/3.gif'), button: Text('Stock: ${items[5]}', style: const TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () => { context.push('/infoS') },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Raspberry Pi'), subtitle: const Text('Online: 25'), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6'), color: const Color(0xfff9d423), funcion: () {  },),
+        CustomInfo(label: const Text('Raspberry Pi', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: const Text('Online: 25', style: TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/4.gif'), button: const Text('Stock: 6', style: TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () {  },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Antenas'), subtitle: Text('Online: ${items[6]}'), icon: Image.asset('assets/images/5.gif'), button: Text('Stock: ${items[7]}'), color: const Color(0xfff9d423), funcion: () {  },),
+        CustomInfo(label: const Text('Antenas', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: Text('Online: ${items[6]}', style: const TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/5.gif'), button: Text('Stock: ${items[7]}', style: const TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () {  },),
         // const SizedBox(height: 20,),
         // CustomInfo(label: const Text('Machines'), subtitle: const Text('Online: 38'), icon: Image.asset('assets/images/6.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },),
         const SizedBox(height: 20,),
-        CustomInfo(label: const Text('Terminals'), subtitle: const Text('Online: 50'), icon: Image.asset('assets/images/7.gif'), button: const Text('Stock: 4'), color: const Color(0xfff9d423), funcion: () {  },),
+        CustomInfo(label: const Text('Terminals', style: TextStyle(fontWeight: FontWeight.bold)), subtitle: const Text('Online: 50', style: TextStyle(fontWeight: FontWeight.bold)), icon: Image.asset('assets/images/7.gif'), button: const Text('Stock: 4', style: TextStyle(fontWeight: FontWeight.bold)), color: const Color.fromARGB(177, 209, 209, 209), funcion: () {  },),
         // const SizedBox(height: 20,),
         // CustomInfo(label: const Text('Racks'), subtitle: const Text('Online: 8'), icon: Image.asset('assets/images/8.gif'), button: const Text('Stock: 0'), color: const Color(0xfff9d423), funcion: () {  },)
       
@@ -155,7 +155,7 @@ class _Menu extends StatelessWidget {
           elevation: 0,
           child: const Icon(
           Icons.computer,
-          color: Colors.blue,
+          color: Colors.blueAccent,
         ),
         labelWidget: const Text('Add Element', style: TextStyle(color: Colors.black54),),
         backgroundColor: Colors.white30,
