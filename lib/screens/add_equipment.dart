@@ -126,6 +126,7 @@ class _AsignarEquipoScreenState extends State<AddEquipment> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -135,645 +136,647 @@ class _AsignarEquipoScreenState extends State<AddEquipment> {
           centerTitle: true,
           title: const Text("Add Equipment"),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                      height: 20,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                        height: 20,
+                      ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                  child: DropdownButtonFormField2(
+                    isExpanded: false,
+                    hint: const Text("Select Equipment Type"),
+                    items: equipmentTypes.map((item) => DropdownMenuItem(
+                      value: item,
+                      child: Text(item),
+                    )).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedEquipmentType = value;
+                      });
+                    },
+                    buttonStyleData: const ButtonStyleData(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                     ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child: DropdownButtonFormField2(
-                  isExpanded: false,
-                  hint: const Text("Select Equipment Type"),
-                  items: equipmentTypes.map((item) => DropdownMenuItem(
-                    value: item,
-                    child: Text(item),
-                  )).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedEquipmentType = value;
-                    });
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                  iconStyleData: const IconStyleData(
-                    icon: Icon(Icons.arrow_drop_down),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(Icons.arrow_drop_down),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              if (_selectedEquipmentType != null) ...[
-                Text("Selected Equipment Type: $_selectedEquipmentType"),
                 const SizedBox(height: 20),
-                // Mostrar diferentes inputs según la selección
-                if (_selectedEquipmentType == 'Laptop' || _selectedEquipmentType == 'PC') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                if (_selectedEquipmentType != null) ...[
+                  Text("Selected Equipment Type: $_selectedEquipmentType"),
+                  const SizedBox(height: 20),
+                  // Mostrar diferentes inputs según la selección
+                  if (_selectedEquipmentType == 'Laptop' || _selectedEquipmentType == 'PC') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                        child:
+                          TextFormFields(
+                            controller: serialNumber,
+                            hint: '24NR824', 
+                            labelText: 'Servi Tag', 
+                            icono: const Icon(Icons.computer), 
+                            validators: (value){
+                              return;
+                            },
+                            suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                            ),
+                    ),
+                    const SizedBox(
+                        height: 25,
+                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child: DataTime(
+                          controller: datePicked, 
+                          labelText: 'Fecha Inicio Equipo', 
+                          prefixIcon: const Icon(Icons.calendar_month), 
+                          onTap: () { 
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            _selectdate(); 
+                            },
+                        ),
+                    ),
+                    const SizedBox(
+                        height: 25,
+                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                        child:
+                          DataTime(
+                            controller: dateFinal, 
+                            labelText: 'Fecha Final Garantia', 
+                            prefixIcon: const Icon(Icons.calendar_month), 
+                            onTap: () { 
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              _selectFinal(); 
+                              },
+                          )
+                      ),
+          
+                  ] else if (_selectedEquipmentType == 'Terminal') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                        child:
+                          TextFormFields(
+                            controller: serialNumber,
+                            hint: '24NR824', 
+                            labelText: 'Servi Tag', 
+                            icono: const Icon(Icons.computer), 
+                            validators: (value){
+                              return;
+                            },
+                            suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                            ),
+                    ),
+                    const SizedBox(
+                        height: 25,
+                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                        child:
+                          DataTime(
+                            controller: dateFinal, 
+                            labelText: 'Fecha Final Garantia', 
+                            prefixIcon: const Icon(Icons.calendar_month), 
+                            onTap: () { 
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              _selectFinal(); 
+                              },
+                          )
+                      ),
+          
+                  ] else if (_selectedEquipmentType == 'Docking') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
                       child:
                         TextFormFields(
                           controller: serialNumber,
-                          hint: '24NR824', 
-                          labelText: 'Servi Tag', 
-                          icono: const Icon(Icons.computer), 
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.dock), 
                           validators: (value){
                             return;
                           },
                           suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                           ),
-                  ),
-                  const SizedBox(
-                      height: 25,
                     ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child: DataTime(
-                        controller: datePicked, 
-                        labelText: 'Fecha Inicio Equipo', 
-                        prefixIcon: const Icon(Icons.calendar_month), 
-                        onTap: () { 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          _selectdate(); 
-                          },
-                      ),
-                  ),
-                  const SizedBox(
-                      height: 25,
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
                       child:
-                        DataTime(
-                          controller: dateFinal, 
-                          labelText: 'Fecha Final Garantia', 
-                          prefixIcon: const Icon(Icons.calendar_month), 
-                          onTap: () { 
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            _selectFinal(); 
-                            },
-                        )
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
                     ),
-
-                ] else if (_selectedEquipmentType == 'Terminal') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                   
+                  ]else if (_selectedEquipmentType == 'Cargador') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
                       child:
                         TextFormFields(
                           controller: serialNumber,
-                          hint: '24NR824', 
-                          labelText: 'Servi Tag', 
-                          icono: const Icon(Icons.computer), 
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.charging_station), 
                           validators: (value){
                             return;
                           },
                           suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
                           ),
-                  ),
-                  const SizedBox(
-                      height: 25,
                     ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
                       child:
-                        DataTime(
-                          controller: dateFinal, 
-                          labelText: 'Fecha Final Garantia', 
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+          
+                  ] else if (_selectedEquipmentType == 'Diadema') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.headset), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+          
+                  ] else if (_selectedEquipmentType == 'Monitor') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.monitor), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    
+                  ] else if (_selectedEquipmentType == 'Teclado/Mouse') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.keyboard), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    
+                  ] else if (_selectedEquipmentType == 'Camara') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.camera_alt), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.0380),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                   
+                  ] else if (_selectedEquipmentType == 'Escaner') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.scanner), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Keyence, Skorpio, .....' ,
+                          labelText: 'Marca:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'BT-A500GA, DATALOGIC X4, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child: DataTime(
+                          controller: datePicked, 
+                          labelText: 'Fecha Llegada', 
                           prefixIcon: const Icon(Icons.calendar_month), 
                           onTap: () { 
                             FocusManager.instance.primaryFocus?.unfocus();
-                            _selectFinal(); 
+                            _selectdate(); 
                             },
-                        )
+                        ),
                     ),
-
-                ] else if (_selectedEquipmentType == 'Docking') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.dock), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                 
-                ]else if (_selectedEquipmentType == 'Cargador') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.charging_station), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-
-                ] else if (_selectedEquipmentType == 'Diadema') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.headset), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-
-                ] else if (_selectedEquipmentType == 'Monitor') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.monitor), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  
-                ] else if (_selectedEquipmentType == 'Teclado/Mouse') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.keyboard), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  
-                ] else if (_selectedEquipmentType == 'Camara') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.camera_alt), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                 
-                ] else if (_selectedEquipmentType == 'Escaner') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.scanner), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Keyence, Skorpio, .....' ,
-                        labelText: 'Marca:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'BT-A500GA, DATALOGIC X4, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child: DataTime(
-                        controller: datePicked, 
-                        labelText: 'Fecha Llegada', 
-                        prefixIcon: const Icon(Icons.calendar_month), 
-                        onTap: () { 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          _selectdate(); 
+          
+                  ] else if (_selectedEquipmentType == 'Impresora') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.print_rounded), 
+                          validators: (value){
+                            return;
                           },
-                      ),
-                  ),
-
-                ] else if (_selectedEquipmentType == 'Impresora') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.print_rounded), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: '12:34:56:78:90:AB' ,
-                        labelText: 'MAC:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'RICOH, Vita II, Vario III, Zebra' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  
-                ] else if (_selectedEquipmentType == 'Raspberry') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.data_array), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  
-                ] else if (_selectedEquipmentType == 'Antena') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.wifi), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
-                        ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child: DataTime(
-                        controller: datePicked, 
-                        labelText: 'Fecha Llegada', 
-                        prefixIcon: const Icon(Icons.calendar_month), 
-                        onTap: () { 
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          _selectdate(); 
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: '12:34:56:78:90:AB' ,
+                          labelText: 'MAC:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'RICOH, Vita II, Vario III, Zebra' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    
+                  ] else if (_selectedEquipmentType == 'Raspberry') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.data_array), 
+                          validators: (value){
+                            return;
                           },
-                      ),
-                  ),
-                  
-                ] else if (_selectedEquipmentType == 'Regulador') ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: serialNumber,
-                        hint: '#####', 
-                        labelText: 'Serial Number', 
-                        icono: const Icon(Icons.electrical_services), 
-                        validators: (value){
-                          return;
-                        },
-                        suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal:screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    
+                  ] else if (_selectedEquipmentType == 'Antena') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.wifi), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child: DataTime(
+                          controller: datePicked, 
+                          labelText: 'Fecha Llegada', 
+                          prefixIcon: const Icon(Icons.calendar_month), 
+                          onTap: () { 
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            _selectdate(); 
+                            },
                         ),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: description,
-                        hint: 'Complemento .....' ,
-                        labelText: 'Description:', 
-                        icono: const Icon(Icons.description), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  const SizedBox(
-                          height: 40,
-                        ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 80),
-                    child:
-                      TextFormFields(
-                        controller: model,
-                        hint: 'Dell, Logitech, .....' ,
-                        labelText: 'Model:', 
-                        icono: const Icon(Icons.model_training), 
-                        validators: (value){
-                          return;
-                        }),
-                  ),
-                  
+                    ),
+                    
+                  ] else if (_selectedEquipmentType == 'Regulador') ...[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: serialNumber,
+                          hint: '#####', 
+                          labelText: 'Serial Number', 
+                          icono: const Icon(Icons.electrical_services), 
+                          validators: (value){
+                            return;
+                          },
+                          suffixIcon: IconButton(onPressed: scanBarcodeNormal, icon: const Icon(Icons.camera_alt_rounded),),
+                          ),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: description,
+                          hint: 'Complemento .....' ,
+                          labelText: 'Description:', 
+                          icono: const Icon(Icons.description), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    const SizedBox(
+                            height: 40,
+                          ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                      child:
+                        TextFormFields(
+                          controller: model,
+                          hint: 'Dell, Logitech, .....' ,
+                          labelText: 'Model:', 
+                          icono: const Icon(Icons.model_training), 
+                          validators: (value){
+                            return;
+                          }),
+                    ),
+                    
+                  ],
                 ],
-              ],
-              const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child:
-                    SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton.icon(
-                      onPressed: sendData, 
-                      label: const Text('Add'), 
-                      icon: const Icon(Icons.add), 
-                      style: TextButton.styleFrom(
-                      foregroundColor: Colors.white, 
-                      backgroundColor: Colors.red
+                const SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.03),
+                  child:
+                      SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: sendData, 
+                        label: const Text('Add'), 
+                        icon: const Icon(Icons.add), 
+                        style: TextButton.styleFrom(
+                        foregroundColor: Colors.white, 
+                        backgroundColor: Colors.red
+                        ),
                       ),
-                    ),
-                    ),
-              )
-            ],
+                      ),
+                )
+              ],
+            ),
           ),
         ),
       ),

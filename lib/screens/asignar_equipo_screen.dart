@@ -122,7 +122,6 @@ void _computers() async {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _complements();
     _computers();
